@@ -1,16 +1,46 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+#gameContainer {
+    width: 420px;
+    height: 420px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    border: 7px solid blue;
+    box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);
 }
 
-#board {
-    height: 540px;
-    width: 630px;
-
+.column {
+    border: 7px solid blue;
+    width: 59px;
     background-color: blue;
-    border: 10px solid navy;
-
-    margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+    position: relative;
+}
+
+#playButton {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#playButton:hover {
+    background-color: gray;
+}
+
+#scoreBoard {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+
+.scores {
+    flex-direction: row;
 }
