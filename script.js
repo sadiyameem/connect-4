@@ -55,7 +55,7 @@ function newGame(button) {
     // create slots and push to columns
     columns.forEach((el, col) => {
         let slotColumn = [];
-        for (i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             const div = document.createElement("div");
             div.classList.add("slot");
             el.appendChild(div);
@@ -71,7 +71,7 @@ function newGame(button) {
     slotArray.forEach((col) => {
         col[5].element.classList.add("clickable", nextColor);
     });
-    console.log(slotsArray);
+    console.log(slotArray);
 }
 
 // check if game is draw
@@ -89,10 +89,10 @@ function isDraw(slotArray) {
 function testLines(lines, color, slotsArray) {
     let connectedSlots = 1; // 4 = win
     lines.forEach((line) => {
-        for (i = 0; i < line.length; i++) {
+        for (let i = 0; i < line.length; i++) {
             const slotLocation = line[i];
-            column = slotLocation[0];
-            row = slotLocation[1];
+            let column = slotLocation[0];
+            let row = slotLocation[1];
 
             // don't allow for searching off screen
             if (column >= 0 && column <= 6 && row >= 0 && row <= 5) {
@@ -108,4 +108,87 @@ function testLines(lines, color, slotsArray) {
     });
     if (connectedSlots >= 4) return true;
     return false;
+}
+
+// check if there is a winner
+function isWinner(col, row, color, slotsArray) {
+    const winningLines = {
+        horizontal: [
+            [
+                [col - 1, row],
+                [col - 2, row],
+                [col -3, row],
+            ],
+            [
+                [col + 1, row],
+                [col + 2, row],
+                [col + 3, row],
+            ],
+        ],
+        vertical: [
+            [
+                [col, row - 1],
+                [col , row - 2],
+                [col, row - 3],
+            ],
+            [
+                [col, row + 1],
+                [col , row + 2],
+                [col, row + 3],
+            ],
+        ],
+        diagonalLeft: [
+            [
+                [col - 1, row - 1],
+                [col - 2, row - 2],
+                [col - 3, row - 3],
+            ],
+            [
+                [col + 1, row + 1],
+                [col + 2, row + 2],
+                [col + 3, row + 3],
+            ],
+        ],
+        diagonalRight: [
+            [
+                [col - 1, row + 1],
+                [col - 2, row + 2],
+                [col - 3, row + 3],
+            ],
+            [
+                [col + 1, row - 1],
+                [col + 2, row - 2],
+                [col + 3, row - 3],
+            ],
+        ],
+    };
+    if (testLines(winningLines.horizontal, color, slotsArray) == true)
+        return true;
+
+    if (testLines(winningLines.vertical, color, slotsArray) == true) return true;
+    if (testLines(winningLines.diagonalLeft, color, slotsArray) == true)
+        return true;
+        
+    if (testLines(winningLines.diagonalRight, color, slotsArray) == true)
+        return true;
+
+    return false;
+}
+// check if game is over
+function gameOver(winner) {
+    console.log("game over");
+    setScore(winner);
+    // delete game
+    document.querySelectorAll(".column").forEach((column) => {
+        column.innerHTML = "";
+        column.parentNode.removeChild(column);
+        document.getElementById("playButton").style.display = "inherit";
+    });
+}
+// set score on the scoreboard
+function setScore(winner) {
+    if (winner == "undefined") return;
+
+    document.getElementById(winner + "Score").innerHTML =
+    parseInt(document.getElementById(winner + "Score").innerHTML) + 1;
 }
