@@ -97,7 +97,7 @@ function testLines(lines, color, slotsArray) {
             // don't allow for searching off screen
             if (column >= 0 && column <= 6 && row >= 0 && row <= 5) {
                 // make sure it is defined
-                if (typeof slotsArray[column][row].state !== "undefined") {
+                if (typeof slotsArray[column][row] !== "undefined") {
                     if (slotsArray[column][row].state == color) {
                     connectedSlots += 1;
                     console.log(connectedSlots);
